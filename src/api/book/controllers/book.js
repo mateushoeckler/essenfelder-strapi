@@ -15,11 +15,11 @@ module.exports = createCoreController('api::book.book', ({ strapi }) =>  ({
 
       let requested_course = parseInt(ctx.request.url.split("/").pop())
 
-      const user_course = (await strapi.db.query('api::user-course.user-course').findOne({
-        where: { user: {id: userId }, course: {id: requested_course} },
-        populate: { course: true, allowed_books: true },
-      }));
-      if (user_course == null) ctx.throw(403, 'Content not Allowed');
+      const user = await strapi.entityService.findOne('plugin::users-permissions.user', userId, {
+        populate: { books: true },
+      });
+
+      if (!user) ctx.throw(403, 'User not found');
 
       let all_books = (await strapi.db.query('api::book.book').findMany({
         where: { course: {id: requested_course } },
@@ -28,7 +28,7 @@ module.exports = createCoreController('api::book.book', ({ strapi }) =>  ({
 
       all_books.sort((a, b) => (a.id > b.id) ? 1 : (a.id < b.id) ? -1 : 0)
 
-      const allowed_books_ids = user_course.allowed_books.map((book) => book.id)
+      const allowed_books_ids = user.books.map((book) => book.id)
 
       all_books.forEach((book) => {
         if (!allowed_books_ids.includes(book.id)) {
