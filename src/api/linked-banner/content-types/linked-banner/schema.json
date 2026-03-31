@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "linked_banners",
+  "info": {
+    "singularName": "linked-banner",
+    "pluralName": "linked-banners",
+    "displayName": "Linked Banner",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Url": {
+      "type": "string",
+      "required": true
+    },
+    "Banner": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}
