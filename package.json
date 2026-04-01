@@ -10,7 +10,8 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "^4.25.2",
+    "@strapi/plugin-i18n": "4.25.2",
+    "@strapi/admin": "4.25.2",
     "@strapi/plugin-users-permissions": "4.25.2",
     "@strapi/provider-email-nodemailer": "4.25.2",
     "@strapi/strapi": "4.25.2",
