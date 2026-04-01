@@ -13,11 +13,6 @@ async function migrate() {
 
   try {
     const userCourses = await strapi.db.query('api::user-course.user-course').findMany({
-      where: {
-        user: {
-          id: 3
-        }
-      },
       populate: { user: true, allowed_books: true },
     });
 
