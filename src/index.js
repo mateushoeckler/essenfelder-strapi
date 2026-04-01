@@ -1,6 +1,6 @@
 'use strict';
 
-const { getService } = require('@strapi/plugin-users-permissions/server/utils');
+const getService = (name) => strapi.plugin('users-permissions').service(name);
 
 module.exports = {
   /**
@@ -26,10 +26,9 @@ module.exports = {
         const student_email = event.result.email;
         const new_password = randomString(8);
 
-        await getService('user').edit(event.result.id,
-          {
-            password: new_password,
-          });
+        await getService('user').edit(event.result.id, {
+          password: new_password,
+        });
 
         await strapi
           .plugin('email')
