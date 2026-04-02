@@ -46,7 +46,7 @@ module.exports = {
           strapi.log.info(`E-mail de boas-vindas enviado com sucesso para ${student_email}`);
         } catch (error) {
           strapi.log.error(`Erro ao processar criação de usuário/envio de e-mail para ${student_email}:`);
-          strapi.log.error(error.message);
+          strapi.log.error(JSON.stringify(error, null, 2) || error.message);
           // O erro não é re-lançado para evitar que o Strapi mostre erro no painel administrativo,
           // já que o usuário base já foi criado pelo Strapi antes deste hook.
         }
