@@ -4,7 +4,6 @@ module.exports = ({ env }) => ({
     config: {
       provider: 'nodemailer',
       providerOptions: {
-	name: env('SMTP_USERNAME'),
         host: env('SMTP_HOST'),
         port: env('SMTP_PORT'),
         auth: {
@@ -12,8 +11,8 @@ module.exports = ({ env }) => ({
           pass: env('SMTP_PASSWORD'),
         },
         secure:true,
-//        debug: true,
-//        logger: true,
+        debug: true,
+        logger: true,
         // ... any custom nodemailer options
       },
       settings: {
