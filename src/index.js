@@ -26,20 +26,30 @@ module.exports = {
         const student_email = event.result.email;
         const new_password = randomString(8);
 
-        await getService('user').edit(event.result.id, {
-          password: new_password,
-        });
-
-        await strapi
-          .plugin('email')
-          .service('email')
-          .send({
-            to: student_email,
-            from: 'nao-responda@essenfeldereducacional.com.br',
-            subject: 'Senha de Acesso - Curso Essenfelder',
-            text: 'Olé '+event.result.username+', sua senha é '+new_password,
-            html: email_body.replace("[PRIMEIRO_NOME]", event.result.username).replace("[SENHA]", new_password),
+        try {
+          await getService('user').edit(event.result.id, {
+            password: new_password,
           });
+          strapi.log.info(`Senha temporária gerada para o usuário ${event.result.username} (${student_email})`);
+
+          await strapi
+            .plugin('email')
+            .service('email')
+            .send({
+              to: student_email,
+              from: 'nao-responda@essenfeldereducacional.com.br',
+              subject: 'Senha de Acesso - Curso Essenfelder',
+              text: 'Olé '+event.result.username+', sua senha é '+new_password,
+              html: email_body.replace("[PRIMEIRO_NOME]", event.result.username).replace("[SENHA]", new_password),
+            });
+
+          strapi.log.info(`E-mail de boas-vindas enviado com sucesso para ${student_email}`);
+        } catch (error) {
+          strapi.log.error(`Erro ao processar criação de usuário/envio de e-mail para ${student_email}:`);
+          strapi.log.error(error.message);
+          // O erro não é re-lançado para evitar que o Strapi mostre erro no painel administrativo,
+          // já que o usuário base já foi criado pelo Strapi antes deste hook.
+        }
       },
     });
   },
