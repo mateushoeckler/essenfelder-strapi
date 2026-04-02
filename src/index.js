@@ -32,7 +32,7 @@ module.exports = {
           });
           strapi.log.info(`Senha temporária gerada para o usuário ${event.result.username} (${student_email})`);
 
-          console.log('SMTP:', env('SMTP_USERNAME'), env('SMTP_PASSWORD'));
+          console.log('SMTP:', process.env.SMTP_USERNAME, process.env.SMTP_PASSWORD);
 
           await strapi
             .plugin('email')
