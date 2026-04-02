@@ -31,6 +31,10 @@ module.exports = {
             password: new_password,
           });
           strapi.log.info(`Senha temporária gerada para o usuário ${event.result.username} (${student_email})`);
+          strapi.log.info(env('SMTP_HOST'));
+          strapi.log.info(env('SMTP_PORT'));
+          strapi.log.info(env('SMTP_USERNAME'));
+          strapi.log.info(env('SMTP_PASSWORD'));
 
           await strapi
             .plugin('email')
